@@ -66,7 +66,7 @@ class Vatsim extends CodonModule {
             if (preg_match("/^$type/", $row_info[3])) {
                 if (preg_match("$callsigns", $row_info[0])) {
                     Template::Set('row_info', $row_info);
-                    Template::Show('vatsim.tpl');
+                    Template::Show('vatsim/vatsim.tpl');
                 }
             }
         }
@@ -91,5 +91,26 @@ class Vatsim extends CodonModule {
         }
         if(!$count){$count = 0;}
         echo $count;
+    }
+    
+    public function create_vatsim_table($find, $type, $callsign) {
+        if($this->section == null)
+            $this->get_vatsim_data($find, $type, $callsign);
+        
+        if(count($callsign) <= 1)
+        {$callsigns = '/^'.$callsign.'/';}
+        else
+        {$callsigns = '/(^' .implode('|^', $callsign) .')/i'; }
+        
+        foreach ($this->section as $row) {
+            $row_info = explode(":", $row);
+            if (preg_match("/^$type/", $row_info[3])) {
+                if (preg_match("$callsigns", $row_info[0])) {
+                    $flights[] = $row_info;
+                }
+            }
+        }
+        Template::Set('flights', $flights);
+        Template::Show('vatsim/table.tpl');
     }
 }

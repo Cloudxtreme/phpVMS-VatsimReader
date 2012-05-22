@@ -62,3 +62,7 @@ To show a count of Vatsim online atc controllers
 The vatsim.tpl file simply shows all the available data to you in a list for each dataset available.
 You can display what info you would like and build it into a list, table, or anything else you
 would like for your site. 
+
+An example html table function and template is included and can be run using
+
+<?php MainController::Run('Vatsim', 'create_vatsim_table', '!CLIENTS:', 'PILOT', 'AAL'); ?>
