@@ -113,4 +113,25 @@ class Vatsim extends CodonModule {
         Template::Set('flights', $flights);
         Template::Show('vatsim/table.tpl');
     }
+	
+	public function create_vatsim_livemap($find, $type, $callsign) {
+    	if($this->section == null)
+            $this->get_vatsim_data($find, $type, $callsign);
+        
+        if(count($callsign) <= 1)
+        {$callsigns = '/^'.$callsign.'/';}
+        else
+        {$callsigns = '/(^' .implode('|^', $callsign) .')/i'; }
+        
+        foreach ($this->section as $row) {
+            $row_info = explode(":", $row);
+            if (preg_match("/^$type/", $row_info[3])) {
+                if (preg_match("$callsigns", $row_info[0])) {
+                    $flights[] = $row_info;
+                }
+            }
+        }
+        Template::Set('flights', $flights);
+        Template::Show('vatsim/map.tpl');
+    }
 }
