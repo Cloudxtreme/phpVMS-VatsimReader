@@ -1,4 +1,4 @@
-plugin=Vatsim Data Reader
+plugin=Vatsim Data Reader 
 author=David Clark
 email=david@simpilotgroup.com
 version=1.1
